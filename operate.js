@@ -36,7 +36,7 @@ async function initOrg2(username){
 
     try{
         // load the network configuration for org2
-        let connectionProfile = yaml.safeLoad(fs.readFileSync('../../../test-network/organizations/peerOrganizations/org2.example.com/connection-org2.yaml', 'utf8'));
+        let connectionProfile = yaml.safeLoad(fs.readFileSync('../../test-network/organizations/peerOrganizations/org2.example.com/connection-org2.yaml', 'utf8'));
 
 
         // Create a new CA client for interacting with the CA.

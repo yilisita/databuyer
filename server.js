@@ -73,6 +73,7 @@ app.post('/sendRequest', async (req, res) => {
             const time = req.body.requestTime;
             //var output = "您的请求发送成功";
             var output = await sendRequest(contract, proposal, requestStr, time);
+            requestID += 1;
             // output是发送结果: expected: 您的请求发送成功！
             console.log(proposal, requestStr, time);
             res.send(output);
