@@ -15,6 +15,7 @@
 
     <!-- Bootstrap core CSS -->
 <link href="bootstrap.min.css" rel="stylesheet">
+<link href="test.css" rel="stylesheet">
 
     <style>
       .bd-placeholder-img {
@@ -82,7 +83,9 @@
             axios.get('http://localhost:3000/readResponse')
             .then(function(res){  // 拿到响应结果
                 var text = (res.data);
-                   // [{},{}] json格式              
+                   // [{},{}] json格式
+                   // still need to parse
+                text = JSON.parse(text);              
                 var table_str = "<caption>历史交易</caption><thead><tr><td>交易编号</td><td>购买内容</td><td>交易时间</td><td>结果（单位：千瓦时）</td></tr></thead><tbody>";
                 for (var key in text){
                     
