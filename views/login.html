@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <title>用户登录</title>
+        <!--不用加public路径-->
+        <link rel="stylesheet"  href="index_log.css" />
+        <script async src="index.js"></script>
+
+    </head>
+
+    <body>
+    <div class="login">
+        <h2>用户登录</h2>
+        <form action='/login' method="post">
+            <div class="login_box">
+            <!-- required就是不能为空  必须在css效果中有很大的作用 -->      
+                <input type="text" name='username' id='username' required="required"  />
+                <label for="name" >用户名</label>
+            </div>
+        
+
+            <div class="login_box">       
+                <input type="password" name='pwd' id='pwd' required="required" />
+                <label for="pwd">密码</label>
+            </div>
+
+            <div class="login_box">
+                <input type="submit" value="登录"  />
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </form>
+    </div>
+
+   
+
+
+ </body>
+</html>
+

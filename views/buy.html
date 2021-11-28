@@ -1,0 +1,163 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>购买数据报告</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/navbar-fixed/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="navbar-top-fixed.css" rel="stylesheet">
+  </head>
+  <body>
+    
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">电力数据交易平台</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link "  href="http://localhost:3000/home">首页</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">购买数据报告</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="http://localhost:3000/historytxn">我的交易</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled">待开发</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="搜索" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">搜索</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<main class="container">
+    <div class="bg-light p-5 rounded">
+        <form method="post">
+            <input type="radio" name="request" value="get my total amount" checked/>查询所有用户的用电量
+            <input type="radio" name="request" value="get my total amount" />查询所有用户的平均用电量
+            <button type="button" onclick="onSendRequest()">确认提交</button>
+        </form>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript">
+        /**
+         * 日期时间格式化函数
+         * @param dateObj {Date} date实例
+         * @param format {String} 格式字符串
+         * @returns {String} 格式化后的字符串
+         */
+    function formatDate(dateObj, format) {
+        let o = {
+            'M+': dateObj.getMonth() + 1,
+            'd+': dateObj.getDate(),
+            'h+': dateObj.getHours() % 12 === 0 ? 12 : dateObj.getHours() % 12,
+            'H+': dateObj.getHours(),
+            'm+': dateObj.getMinutes(),
+            's+': dateObj.getSeconds(),
+            'q+': Math.floor((dateObj.getMonth() + 3) / 3),
+            'S': dateObj.getMilliseconds()
+        };
+        let week = {
+            '0': '\u65e5',
+            '1': '\u4e00',
+            '2': '\u4e8c',
+            '3': '\u4e09',
+            '4': '\u56db',
+            '5': '\u4e94',
+            '6': '\u516d'
+        };
+        if (/(y+)/.test(format)) {
+            format = format.replace(RegExp.$1, (dateObj.getFullYear() + '').substr(4 - RegExp.$1.length));
+        }
+        if (/(E+)/.test(format)) {
+            format = format.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? '\u661f\u671f' : '\u5468') : '') + week[dateObj.getDay() + '']);
+        }
+        for (let k in o) {
+            if (new RegExp('(' + k + ')').test(format)) {
+            format = format.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
+            }
+        }
+        return format;
+        }
+
+        function onSendRequest() {
+
+            // radio input的处理方式
+            var arry = document.getElementsByName('request');
+            var pro = null;
+            for (var i = 0; i < arry.length; i++){
+                if (arry[i].checked){
+                    pro = arry[i].value;
+                    break;
+                }
+            }
+
+            console.log(typeof pro);
+            //window.alert(typeof pro);
+
+            // 将get my total amount => GetMyTotalAmount          
+            var newStr = pro.split(' ');
+            for (var i = 0; i < newStr.length; i++){
+                newStr[i] = newStr[i].slice(0, 1).toUpperCase() + newStr[i].slice(1).toLowerCase();
+            }
+            pro = newStr.join('');
+            
+            console.log(pro);
+            var time = formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss')
+            axios.post('http://localhost:3000/sendRequest', {
+                proposal: pro,  // 以这种方式传过去；
+                requestTime: time,
+            })
+            .then(function(res){  // 拿到响应结果
+                var text = res.data
+                   // 字符串格式
+                window.alert(text);
+            })
+        }
+    </script>
+  </div>
+</main>
+
+
+    <script src="bootstrap.bundle.min.js"></script>
+
+      
+  </body>
+</html>

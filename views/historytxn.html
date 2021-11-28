@@ -1,0 +1,110 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>主页</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/navbar-fixed/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="navbar-top-fixed.css" rel="stylesheet">
+  </head>
+  <body>
+    
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">电力数据交易平台</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link "  href="http://localhost:3000/home">首页</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="http://localhost:3000/buy">购买数据报告</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">我的交易</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled">待开发</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="搜索" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">搜索</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="bg-light p-5 rounded">
+    <button onclick="onReadResponse()" type="button">显示历史交易</button>
+
+    <table id="query-result">
+
+    </table>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript">
+        function onReadResponse() {
+            var table = document.getElementById('query-result');
+
+            axios.get('http://localhost:3000/readResponse')
+            .then(function(res){  // 拿到响应结果
+                var text = (res.data);
+                   // [{},{}] json格式              
+                var table_str = "<caption>历史交易</caption><thead><tr><td>交易编号</td><td>购买内容</td><td>交易时间</td><td>结果（单位：千瓦时）</td></tr></thead><tbody>";
+                for (var key in text){
+                    
+                    var item = text[key];
+                    var row_str = '<tr>';
+                    for (var i in item){
+                        row_str += '<td>' + item[i] + '</td>';
+                    }
+                    row_str += '</tr>';
+                    table_str += row_str;
+                }
+                table_str += '</tbody>';
+                document.getElementById("query-result").innerHTML = table_str;         
+            })
+        }
+    </script>
+  </div>
+</main>
+
+
+    <script src="bootstrap.bundle.min.js"></script>
+
+      
+  </body>
+</html>

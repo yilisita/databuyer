@@ -28,6 +28,7 @@ const {buildCAClient, registerAndEnrollUser, enrollAdmin} = require('./CAUtil.js
 const channel = "mychannel";
 // 链码名
 const chaincode = "private";
+const org2 = "Org2MSP";
 
 //----初始化组织2----
 async function initOrg2(username){
@@ -70,12 +71,14 @@ async function initOrg2(username){
 
 }
 
-async function sendRequest(contract, proposal, requestID){
+async function sendRequest(contract, proposal, requestID, time){
 
     try{
-        const time = Date().toLocaleString();
-        await contract.submitTransaction("SendRequest", requestID, proposal.toString(), time);
-        return "您的查询请求: " + proposal.toString() + " 已经发送成功";
+        var transaction = contract.createTransaction('SendRequest');
+        transaction.setEndorsingOrganizations(org2);
+        await transaction.submit(requestID, proposal.toString(), time);
+        
+        return "您的查询请求已经发送成功";
     }catch(error){
         return error;
     }
